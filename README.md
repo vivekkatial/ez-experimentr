@@ -12,7 +12,7 @@ EZ-EXPERIMENTr is a toolkit under-development with the aim to help researchers r
 - The first iteration of this toolkit will be using the University of Melbourne IaaS (that's where I am doing my PhD).
 
 ## Proposed Architecture
-<a href="">
+<a href="https://github.com/vivekkatial/ez-experimentr/blob/master/cluster-experimentation-workflow.png">
     <img src="cluster-experimentation-workflow.png" />
 </a>
 
