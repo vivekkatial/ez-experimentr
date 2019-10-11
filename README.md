@@ -1,3 +1,7 @@
+<a href="">
+    <img src="ez-experimentr.png" align="right" height="60" />
+</a>
+
 # EZ-EXPERIMENTr
 
 *Running reproducible research experiments at scale*
