@@ -1,5 +1,5 @@
 <a href="">
-    <img src="ez-experimentr.png" align="right" height="60" />
+    <img src="ez-experimentr.png" align="right" height="240" />
 </a>
 
 # EZ-EXPERIMENTr
