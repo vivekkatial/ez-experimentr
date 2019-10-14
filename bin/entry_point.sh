@@ -20,7 +20,8 @@
 # --------------------------------------------
 
 # Trigger errors
-set -e;
+set -e # Exit on first error
+set -v # Verbose
 
 # Find number of cols 
 COLUMNS=$(tput cols) 
@@ -36,11 +37,21 @@ printf "=%.0s" $(seq 1 $COLUMNS)
 # include parse_yaml function
 . bin/parse_yaml.sh
 
+
+# read experiment configuration
+eval $(parse_yaml config/experiment_config.yml)
+
+# Change repository being extracted in create_experiments.sh
+sed "s|%%GIT_URL%%|${experiment_git_url}|g" config/create_experiment_template.sh > bin/create_experiments.sh
+
 # read resource access credentials yaml file
 eval $(parse_yaml .credentials/resource_access_credentials.yml)
 
+
 # SSH into cluster and run main script
-cat bin/create-experiments.sh | ssh -tt $credentials_hostname
+cat bin/create_experiments.sh | ssh -tt $credentials_hostname
+
+
 
 # End Script
 
