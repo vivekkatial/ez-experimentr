@@ -7,8 +7,11 @@
 # the project.
 #
 # To run this script you please ensure you have
-# the correct username to enter the cluster
+# the correct hostname to enter the cluster
 # in the credential file
+#
+# To enable no input - setup private key ssh 
+# access
 # 
 # Please ensure you have set up SSH-free login
 # with a public key
@@ -19,6 +22,7 @@
 # Trigger errors
 set -e;
 
+# Find number of cols 
 COLUMNS=$(tput cols) 
 
 # Print welcome message
@@ -36,7 +40,7 @@ printf "=%.0s" $(seq 1 $COLUMNS)
 eval $(parse_yaml .credentials/resource_access_credentials.yml)
 
 # SSH into cluster and run main script
-cat bin/create-experiments.sh | ssh -t $credentials_hostname
+cat bin/create-experiments.sh | ssh -tt $credentials_hostname
 
 # End Script
 

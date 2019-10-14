@@ -4,7 +4,7 @@
 cd /data/cephfs/punim1074/
 
 # Take repository
-repo="ez-experimentr"
+repo="aqc-three-sat-sim"
 url="https://github.com/vivekkatial/$repo"
 
 # Clone Repo from GIT
@@ -19,3 +19,5 @@ rm -rf $repo
 ls
 
 pwd
+
+exit
