@@ -1,2 +1,6 @@
 experiment:
-  git_url: "https://github.com/vivekkatial/aqc-three-sat-sim"
+  repository: "aqc-three-sat-sim"
+  github_url: "https://github.com/vivekkatial/aqc-three-sat-sim"
+  cluster_uri: "/data/cephfs/punim1074/"
+  cluster_scratch_dir: "/scratch/punim1074/"
+  cluster_provider: "unimelb_SPARTAN"

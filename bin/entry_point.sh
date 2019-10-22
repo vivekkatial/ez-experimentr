@@ -21,7 +21,7 @@
 
 # Trigger errors
 set -e # Exit on first error
-set -v # Verbose
+#set -v # Verbose
 
 # Find number of cols 
 COLUMNS=$(tput cols) 
@@ -37,31 +37,32 @@ printf "=%.0s" $(seq 1 $COLUMNS)
 # include parse_yaml function
 . bin/parse_yaml.sh
 
+# read resource access credentials yaml file
+eval $(parse_yaml .credentials/resource_access_credentials.yml)
 
 # read experiment configuration
 eval $(parse_yaml config/experiment_config.yml)
 
-# Change repository being extracted in create_experiments.sh
-sed "s|%%GIT_URL%%|${experiment_git_url}|g" config/create_experiment_template.sh > bin/create_experiments.sh
+# Copy experimental configuration into cluster location
+cluser_path="$credentials_hostname:"
 
-# read resource access credentials yaml file
-eval $(parse_yaml .credentials/resource_access_credentials.yml)
+# Copy configuration file into cluster
+echo "Copying Experimental Configuration file from LOCAL to $cluser_path on CLUSTER"
+scp config/experiment_config.yml $cluser_path
 
+# Copy helper function into cluster
+echo "Copying YAML reading helper function from LOCAL to $cluser_path on CLUSTER"
+scp bin/parse_yaml.sh $cluser_path
 
-# SSH into cluster and run main script
+# SSH into cluster and run bash script to create experimental files
 cat bin/create_experiments.sh | ssh -tt $credentials_hostname
 
-
-
-# End Script
-
 # Print ending message
-# Print header
 footer="Jobs complete!"
 
 printf "=%.0s" $(seq 1 $COLUMNS)
 printf "\n\n%*s\n\n" $(((${#title}+$COLUMNS)/2)) "$footer"
 printf "=%.0s" $(seq 1 $COLUMNS)
-
 printf -- '\n';
+
 exit 0;

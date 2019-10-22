@@ -5,6 +5,7 @@ cd /data/cephfs/punim1074/
 
 # Take repository
 git_url="%%GIT_URL%%"
+repo="%%REPO%%"
 
 # Clone Repo from GIT
 git clone $git_url 
