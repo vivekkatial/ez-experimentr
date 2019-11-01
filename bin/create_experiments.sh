@@ -47,6 +47,22 @@ else
     git pull $experiment_github_url
 fi
 
+# Checking if SingularityFile script for building container present in repo
+if [ ! -e SingularityFile.def ] ; then
+	echo "Could not locate SingularityFile.def Singularity definition file"	
+else
+	echo "Singularity definition file found, checking for image..."
+fi
+
+# Checking if Singularity container image present
+if [ ! -e portable-image.img ] ; then
+	echo "Could not locate container image: 'portable-image.img' pulling container image from $experiment_singularity_image_uri"
+	scp -i ~/.ssh/nectarkey-test.pem $experiment_singularity_image_uri . -o StrictHostKeyChecking=no
+else
+	echo "Singularity container image found, executing container..."
+fi
+
+
 # Checking if SLURM script for building experiments present
 if [ ! -e bin/build_experiment_files.slurm ] ; then
 	echo "Could not locate build_experiment_files.slurm shell script"	
