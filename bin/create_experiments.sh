@@ -57,7 +57,7 @@ fi
 # Checking if Singularity container image present
 if [ ! -e portable-image.img ] ; then
 	echo "Could not locate container image: 'portable-image.img' pulling container image from $experiment_singularity_image_uri"
-	scp -i ~/.ssh/nectarkey-test.pem $experiment_singularity_image_uri . -o StrictHostKeyChecking=no
+	scp -o StrictHostKeyChecking=no -i ~/.ssh/nectarkey-test.pem $experiment_singularity_image_uri .
 else
 	echo "Singularity container image found, executing container..."
 fi
