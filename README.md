@@ -15,6 +15,8 @@ docker build -t ez-experimentr/mlflow .
 docker run -p 5000:5000 ez-experimentr/mlflow
 ```
 
+To run experiments:
+
 ```shell
 # Run entry_point.sh
 bash bin/entry_point.sh
