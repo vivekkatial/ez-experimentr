@@ -1,2 +1,4 @@
 # Make sure credentials aren't tracked
 .credentials/*
+.aws/*
+.aws
