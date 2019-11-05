@@ -4,8 +4,16 @@
 
 EZ-EXPERIMENTr is a toolkit under-development with the aim to help researchers run automated experiments on a cluster. 
 
-- The tool is designed to dispatch many experiments as individual jobs to run on a specified cluster. 
-- The first iteration of this toolkit will be using the University of Melbourne IaaS (that's where I am doing my PhD).
+- The tool is designed to dispatch many experiments as reproducible singularity containers to run on a specified cluster. 
+- The first iteration of this toolkit will be using the University of Melbourne IaaS (that's where I am doing my PhD)
+- The DockerFile in this repo is to setup an instance of `mlflow`. It currently doesn't support using a database service.
+
+To run the mlflow container use the following commands:
+
+```shell
+docker build -t ez-experimentr/mlflow .
+docker run -p 5000:5000 ez-experimentr/mlflow
+```
 
 ```shell
 # Run entry_point.sh
