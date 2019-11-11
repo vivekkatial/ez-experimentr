@@ -55,13 +55,8 @@ else
 fi
 
 # Checking if Singularity container image present
-if [ ! -e portable-image.img ] ; then
-	echo "Could not locate container image: 'portable-image.img' pulling container image from $experiment_singularity_image_uri"
-	scp -o StrictHostKeyChecking=no -i ~/.ssh/nectarkey-test.pem $experiment_singularity_image_uri .
-else
-	echo "Singularity container image found, executing container..."
-fi
-
+echo "Pulling Singularity container image from $experiment_singularity_image_uri"
+scp -o StrictHostKeyChecking=no -i ~/.ssh/nectarkey-test.pem $experiment_singularity_image_uri .
 
 # Checking if SLURM script for building experiments present
 if [ ! -e bin/build_experiment_files.slurm ] ; then
