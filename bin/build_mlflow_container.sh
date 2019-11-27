@@ -9,8 +9,11 @@
 set -e
 
 # Check if AWS directory exists
-if [ ! -d  -e ".aws/" ]; then
-    echo "Please create AWS directory"
+if [ -d .aws/ ] ; then 
+    echo "AWS directory present"
+else
+    echo "AWS directory is not present"
+    exit 1
 fi
 
 # First check if AWS credentials are present
