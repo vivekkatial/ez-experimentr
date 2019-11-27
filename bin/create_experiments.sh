@@ -38,20 +38,20 @@ cd $experiment_cluster_uri
 
 # Clone the experiments repository
 if [ ! -d "$experiment_repository" ] ; then
-	# If experiment repo not present then clone the repository
+    # If experiment repo not present then clone the repository
     git clone $experiment_github_url $experiment_repository
     cd $experiment_repository
 else
-	# If experiment repo already there then use most recent repo
+    # If experiment repo already there then use most recent repo
     cd "$experiment_repository"
     git pull $experiment_github_url
 fi
 
 # Checking if SingularityFile script for building container present in repo
 if [ ! -e SingularityFile.def ] ; then
-	echo "Could not locate SingularityFile.def Singularity definition file"	
+    echo "Could not locate SingularityFile.def Singularity definition file" 
 else
-	echo "Singularity definition file found, checking for image..."
+    echo "Singularity definition file found, checking for image..."
 fi
 
 # Checking if Singularity container image present
@@ -60,10 +60,10 @@ scp -o StrictHostKeyChecking=no -i ~/.ssh/nectarkey-test.pem $experiment_singula
 
 # Checking if SLURM script for building experiments present
 if [ ! -e bin/build_experiment_files.slurm ] ; then
-	echo "Could not locate build_experiment_files.slurm shell script"	
+    echo "Could not locate build_experiment_files.slurm shell script"   
 else
-	echo "Building experiments"
-	sbatch bin/build_experiment_files.slurm
+    echo "Building experiments"
+    sbatch bin/build_experiment_files.slurm
 fi
 
 

@@ -25,6 +25,8 @@ COPY .aws /root/.aws
 # MLFLOW
 #####################################################################
 
+# Upgrade pip
+RUN pip install --upgrade pip
 RUN pip install mlflow==$MLFLOW_VERSION
 RUN mkdir -p /mlflow/
 
