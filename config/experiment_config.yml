@@ -4,3 +4,4 @@ experiment:
   cluster_uri: "/data/cephfs/punim1074/"
   cluster_scratch_dir: "/scratch/punim1074/"
   cluster_provider: "unimelb_SPARTAN"
+  singularity_image_uri: "ubuntu@115.146.94.33:aqc-three-sat-sim/portable-image.img"

@@ -57,6 +57,10 @@ scp bin/parse_yaml.sh $cluser_path
 # SSH into cluster and run bash script to create experimental files
 cat bin/create_experiments.sh | ssh -tt $credentials_hostname
 
+# Run experiments in ready folder 
+# TO:DO Check if previous slurm job is completer
+# Provision experiments to run!
+
 # Print ending message
 footer="Jobs complete!"
 
