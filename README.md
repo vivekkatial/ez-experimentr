@@ -33,4 +33,3 @@ bash bin/entry_point.sh
 
 ## Developers
 - Vivek Katial
-- Aman Mehta
