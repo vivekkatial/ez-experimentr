@@ -66,6 +66,4 @@ else
     sbatch bin/build_experiment_files.slurm
 fi
 
-
-
 exit

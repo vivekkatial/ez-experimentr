@@ -62,7 +62,7 @@ cat bin/create_experiments.sh | ssh -tt $credentials_hostname
 # Provision experiments to run!
 
 # Print ending message
-footer="Jobs complete!"
+footer="Experimental Setup Complete!"
 
 printf "=%.0s" $(seq 1 $COLUMNS)
 printf "\n\n%*s\n\n" $(((${#title}+$COLUMNS)/2)) "$footer"
