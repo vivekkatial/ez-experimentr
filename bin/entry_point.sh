@@ -43,21 +43,25 @@ eval $(parse_yaml .credentials/resource_access_credentials.yml)
 # read experiment configuration
 eval $(parse_yaml config/experiment_config.yml)
 
-# Copy experimental configuration into cluster location
+# Copying experimental configuration into cluster location
 cluser_path="$credentials_hostname:"
 
-# Copy configuration file into cluster
+# Copying configuration file into cluster
 echo "Copying Experimental Configuration file from LOCAL to $cluser_path on CLUSTER"
 scp config/experiment_config.yml $cluser_path
 
-# Copy helper function into cluster
+# Copying configuration file into cluster
+echo "Copying Resource Access Credentials file from LOCAL to $cluser_path on CLUSTER"
+scp .credentials/resource_access_credentials.yml $cluser_path
+
+# Copying helper function into cluster
 echo "Copying YAML reading helper function from LOCAL to $cluser_path on CLUSTER"
 scp bin/parse_yaml.sh $cluser_path
 
 # SSH into cluster and run bash script to create experimental files
 cat bin/create_experiments.sh | ssh -tt $credentials_hostname
 
-# Run experiments in ready folder 
+# Run experiments in readingady folder 
 # TO:DO Check if previous slurm job is completer
 # Provision experiments to run!
 

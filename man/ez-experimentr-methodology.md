@@ -226,3 +226,17 @@ Once this is activated, you must now configure your `aws` credentials on SPARTAN
 
 ## Provision MLFlow Instance
 
+
+## Building Singularity Container on your VM Instance
+
+1. Once you have you provisioned a VM and developed your `Singularity` container, you can build the container in your VM
+
+
+## Integrating with SPARTAN
+
+1. You must ensure that your `pem` file is also present in your SPARTAN home directory. 
+2. Use `scp` to migrate the `pem` file from your local machine into `~/.ssh/` on Spartan. You can use the following `bash` command on your local machine.
+  - `$ scp ~/.ssh/<YOUR_KEY_FILE>.pem <USERNAME>@spartan.hpc.unimelb.edu.au:.ssh/`
+  - This step is to ensure that SPARTAN can access your VMs that are provisioned in the MRC
+3. You must ensure that your `.aws` 
+
