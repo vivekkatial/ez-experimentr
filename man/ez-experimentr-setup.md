@@ -212,7 +212,15 @@ secret_key:<YOUR_SECRET_KEY>
 For instruction on accessing the object storage gateway, please refer to the following wiki entry:
 https://wiki.cloud.unimelb.edu.au/resplat/doku.php?id=rdsssupport:s3_object-storage
 
-Once this is activated, you must now configure your `aws` credentials on SPARTAN.
+Once this is activated, you must now configure your `aws` credentials on SPARTAN **and** on your local machine.
+
+### Configure S3 Credentials locally
+
+Please follow the instructions from Amazon [here](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html). Once installed configure AWS by running:
+
+`$ aws configure` and you will be prompted to fill in your access key and secret access key (provide the ones given to you)
+
+### Configure S3 Credentials on SPARTAN
 
 1. SSH into SPARTAN
   - `$ ssh <USERNAME>@spartan.hpc.unimelb.edu.au`
@@ -223,6 +231,10 @@ Once this is activated, you must now configure your `aws` credentials on SPARTAN
   - You will be prompted to fill in your access key and secret access key (provide the ones given to you)
 4. Test that you're connected.
   - `$ aws s3 ls --endpoint-url=https://objects.storage.unimelb.edu.au`
+
+Finally, you can now make an S3 bucket. This is a data lake which will store all your experimental parameterizations and artifacts:
+
+`$ aws s3 mb s3://<BUCKET_NAME>`
 
 ## Provision MLFlow Instance
 
@@ -261,10 +273,6 @@ We will now provision another VM to run an [mlflow](https://mlflow.org/) server.
   - ![MLFlow UI](images/mlflow-ui.png)
 
 **CAUTION:** It is a good idea to deploy this on a private network, or use a reverse proxy such as nGINX.
-
-## Building Singularity Container on your VM Instance
-
-1. Once you have you provisioned a VM and developed your `Singularity` container, you can build the container in your VM
 
 
 ## Integrating with SPARTAN
