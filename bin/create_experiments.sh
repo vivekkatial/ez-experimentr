@@ -16,6 +16,10 @@
 # Author: Vivek Katial
 # --------------------------------------------
 
+# Set up fail tags
+
+set -e
+
 # Remove tmp folder from previous run
 rm -rf tmp
 
@@ -23,15 +27,20 @@ rm -rf tmp
 mkdir tmp
 mkdir tmp/bin/
 mkdir tmp/config/
+mkdir tmp/credentials/
 
 mv parse_yaml.sh tmp/bin/
 mv experiment_config.yml tmp/config/
+mv resource_access_credentials.yml tmp/credentials/
 
 # include parse_yaml function   
 . tmp/bin/parse_yaml.sh
 
 # read experiment configuration
 eval $(parse_yaml tmp/config/experiment_config.yml)
+
+# read resource access configuration
+eval $(parse_yaml tmp/credentials/resource_access_credentials.yml)
 
 # Change directory to project URI
 cd $experiment_cluster_uri
@@ -49,23 +58,43 @@ fi
 
 # Checking if SingularityFile script for building container present in repo
 if [ ! -e SingularityFile.def ] ; then
-    echo "Could not locate SingularityFile.def Singularity definition file" 
+    echo "ERROR: Could not locate SingularityFile.def Singularity definition file" 
 else
     echo "Singularity definition file found, checking for image..."
 fi
 
 # Checking if Singularity container image present
 echo "Pulling Singularity container image from $experiment_singularity_image_uri"
-scp -o StrictHostKeyChecking=no -i ~/.ssh/nectarkey-test.pem $experiment_singularity_image_uri .
 
-# Checking if SLURM script for building experiments present
-if [ ! -e bin/build_experiment_files.slurm ] ; then
-    echo "Could not locate build_experiment_files.slurm shell script"   
+if scp -o StrictHostKeyChecking=no -i ~/.ssh/$credentials_mrc_container_key $experiment_singularity_image_uri .
+then
+    echo "Successfully downloaded Singularity container..."
 else
-    echo "Building experiments"
-    sbatch bin/build_experiment_files.slurm
+    echo "ERROR: Cannot find Singularity container at the specified URI: $experiment_singularity_image_uri"
+    echo "ERROR: Please ensure you have built the container file"
+    echo "ERROR: Please execute 'singularity build <IMAGE_FILENAME> SingularityFile.def' on your VM"
+    exit 0
 fi
 
 
+# Checking if SingularityFile script for building container present in repo
+if [ ! -d ~/.aws ] ; then
+    echo "ERROR: Could not locate AWS-CLI credentials, please upload into your home directory in the folder '.aws/'" 
+else
+    # Copying `S3 Object Storage` credentials into repository
+    echo "Copying S3 Object Storage credentials into repository"
+    cp -r ~/.aws .
+fi
+
+# Checking if SLURM script for building experiments present
+if [ ! -e bin/build/build_experiment_files.slurm ] ; then
+    echo "ERROR: Could not locate build_experiment_files.slurm shell script"   
+else
+    echo "Provisioning experiments"
+    sbatch bin/build/build_experiment_files.slurm
+fi
+
+# Delete tmp folder
+rm -rf tmp
 
 exit

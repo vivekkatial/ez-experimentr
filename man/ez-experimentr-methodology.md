@@ -226,3 +226,52 @@ Once this is activated, you must now configure your `aws` credentials on SPARTAN
 
 ## Provision MLFlow Instance
 
+We will now provision another VM to run an [mlflow](https://mlflow.org/) server. This is similar to the process outlined [earlier](#initialising-mrc-instance). However, there will be slightly different settings we will use.
+
+1. Provision a VM Instances with the name `mlflow-ez-experimentr`.
+  - Use the following source when provisioning an instance `NeCTAR Ubuntu 18.04 LTS (Bionic) amd64 (with Docker)`
+  - Use the following flavour when provisioning an instance: `uom.general.2c8g`
+  - Download your `.pem` key file and store it in ~/.ssh/ (if your machine does not have a `~/.ssh` directory create one)
+  - **CAUTION: This security key MUST not be shared with anyone or over the web (please use `scp` to move it)**
+  - If your `.pem` file permissions are too wide open, ensure you change the permission access. To do this you can use the following bash command
+    - `$ chmod 400 ~/.ssh/<YOUR_KEY_FILE>.pem`
+2. Once you have provisioned the instance, you will need to enable `ssh` and `http` access as well:
+  - You will already have `ssh` security group from [earlier](#initialising-mrc-instance)
+  - To create the HTTP security group follow the same process
+  - Name your new security group `HTTP`
+  - However this time you must add **two** rules.
+  - One for opening up port `80` and another for port `5000`
+  - **Now you must add the security group onto your MLFlow instance**. To do this you, right click "Actions" on the instance and select "Edit Security Groups"
+3. Once you have provisioned the instance on MRC and set up your security groups you can `ssh` into your instance:
+  - If you're on Mac OSX or Linux simply use `ssh  -i ~/.ssh/<YOUR_KEY_FILE>.pem ubuntu@<INSTANCE_IP_ADDRESS>`
+  - On Windows, follow the instructions [here](https://support.ehelp.edu.au/support/solutions/articles/6000055446-accessing-instances)
+4. Once you have successfully `ssh`ed into the machine, clone the `ez-experimentr` repository:
+  - `$ git clone https://github.com/vivekkatial/ez-experimentr.git`
+5. You will also need to ensure that your `aws` credentials are present on the `VM`. To do this you must `scp` the credentials from your local machine onto the `VM`.
+  - `$ scp -i ~/.ssh/<VM_PEM_KEY.pem> -r .aws/ ubuntu@<VM_URI>:ez-experimentr/`
+6. Then `ssh` **back** into the VM and `cd` into the `ez-experimentr` directory and run the `build_mlflow_container.sh` shell script as `sudo`:
+  - `$ sudo bash bin/build_mlflow_container.sh`
+7. You should now have successfully built an `mlflow` Docker container. Verify this by running:
+  - `$ sudo docker images`
+8. You can now deploy the `mlflow` container by running:
+  - `$ sudo bash bin/start_mlflow.sh`
+9. Verify your instance is deployed by going on your internet browser and going too:
+  - http://<YOUR_VM_IP_ADDRESS>:5000
+  - You should see the `mlflow` UI:
+  - ![MLFlow UI](images/mlflow-ui.png)
+
+**CAUTION:** It is a good idea to deploy this on a private network, or use a reverse proxy such as nGINX.
+
+## Building Singularity Container on your VM Instance
+
+1. Once you have you provisioned a VM and developed your `Singularity` container, you can build the container in your VM
+
+
+## Integrating with SPARTAN
+
+1. You must ensure that your `pem` file is also present in your SPARTAN home directory. 
+2. Use `scp` to migrate the `pem` file from your local machine into `~/.ssh/` on Spartan. You can use the following `bash` command on your local machine.
+  - `$ scp ~/.ssh/<YOUR_KEY_FILE>.pem <USERNAME>@spartan.hpc.unimelb.edu.au:.ssh/`
+  - This step is to ensure that SPARTAN can access your VMs that are provisioned in the MRC
+3. You must ensure that your `.aws` 
+
