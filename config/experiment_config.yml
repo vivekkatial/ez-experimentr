@@ -4,4 +4,5 @@ experiment:
   cluster_uri: "/data/cephfs/punim1074/"
   cluster_scratch_dir: "/scratch/punim1074/"
   cluster_provider: "unimelb_SPARTAN"
+  cluster_username: "vivekkatial"
   singularity_image_uri: "ubuntu@115.146.92.101:aqc-three-sat-sim/portable-image.img"

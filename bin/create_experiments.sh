@@ -91,7 +91,10 @@ if [ ! -e bin/build/build_experiment_files.slurm ] ; then
     echo "ERROR: Could not locate build_experiment_files.slurm shell script"   
 else
     echo "Provisioning experiments"
-    sbatch bin/build/build_experiment_files.slurm
+    export OUTPUT_FILENAME="experiment-prep-job-$(date '+%d-%m-%Y')"
+    echo "Results will be outputted to: $OUTPUT_FILENAME"
+    sbatch --output=$OUTPUT_FILENAME bin/build/build_experiment_files.slurm
+    squeue -u $experiment_cluster_username
 fi
 
 # Delete tmp folder
