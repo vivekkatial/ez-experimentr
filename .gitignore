@@ -1,4 +1,5 @@
 # Make sure credentials aren't tracked
 .credentials/*
 .aws/*
-.awsenv.list
+.aws
+env.list
