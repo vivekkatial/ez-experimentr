@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # --------------------------------------------
-# This script is builds the mlflow container
+# This script is Deploys the mlflow container
 #
 # Author: Vivek Katial
 # --------------------------------------------

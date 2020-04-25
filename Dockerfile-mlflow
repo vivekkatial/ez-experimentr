@@ -6,7 +6,7 @@ ENV MLFLOW_VERSION 1.4.0
 ENV TERM linux
 ENV BUCKET s3://testBucket/
 ENV MLFLOW_S3_ENDPOINT_URL https://objects.storage.unimelb.edu.au
-# ENV BACKEND_URI db_type://<user_name>:<password>@<host>:<port>/<database_name>
+ENV BACKEND_URI mysql://mlflow:yQN38isKpKN23p7g7ah5bh@oawdsia2h7q.db.cloud.edu.au:3306/mlflow
 
 #####################################################################
 # AWS
@@ -20,6 +20,7 @@ RUN ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 
 # copy AWS credentials
 COPY .aws /root/.aws
+# Copy
 
 #####################################################################
 # MLFLOW
@@ -42,5 +43,6 @@ EXPOSE 5000
 
 # Deploy
 CMD mlflow server \
+    --backend-store-uri $BACKEND_URI \
     --default-artifact-root $BUCKET \
     --host 0.0.0.0
