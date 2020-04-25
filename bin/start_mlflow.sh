@@ -8,5 +8,5 @@
 
 export PORT=5000
 
-docker run -d -p $PORT:5000 -e DISABLE_AUTH=true ez-experimentr/mlflow && \
+docker run -d -p $PORT:5000 -e DISABLE_AUTH=true --env-file ./env.list ez-experimentr/mlflow && \
 echo "Mlflow Tracking Server running on http://localhost:$PORT"

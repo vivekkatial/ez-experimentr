@@ -6,7 +6,6 @@ ENV MLFLOW_VERSION 1.4.0
 ENV TERM linux
 ENV BUCKET s3://testBucket/
 ENV MLFLOW_S3_ENDPOINT_URL https://objects.storage.unimelb.edu.au
-ENV BACKEND_URI mysql://mlflow:yQN38isKpKN23p7g7ah5bh@oawdsia2h7q.db.cloud.edu.au:3306/mlflow
 
 #####################################################################
 # AWS
