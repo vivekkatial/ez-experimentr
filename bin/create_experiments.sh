@@ -51,11 +51,13 @@ unset SSH_ASKPASS
 # Clone the experiments repository
 if [ ! -d "$experiment_repository" ] ; then
     # If experiment repo not present then clone the repository
+    echo "Cloning repository from Git"
     git clone $experiment_github_url $experiment_repository
     cd $experiment_repository
 else
     # If experiment repo already there then use most recent repo
     cd "$experiment_repository"
+    echo "Pulling latest code"
     git pull $experiment_github_url
 fi
 
