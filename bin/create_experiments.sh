@@ -45,9 +45,6 @@ eval $(parse_yaml tmp/credentials/resource_access_credentials.yml)
 # Change directory to project URI
 cd $experiment_cluster_uri
 
-# Remove ASK Pass stuff
-unset SSH_ASKPASS
-
 # Clone the experiments repository
 if [ ! -d "$experiment_repository" ] ; then
     # If experiment repo not present then clone the repository
