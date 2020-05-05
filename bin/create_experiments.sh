@@ -96,7 +96,7 @@ else
     export OUTPUT_FILENAME="experiment-prep-job-$(date '+%d-%m-%Y').stdout"
     echo "Results will be outputted to: $OUTPUT_FILENAME"
     sbatch --output=$OUTPUT_FILENAME bin/build/build_experiment_files.slurm
-    squeue -u $experiment_cluster_username
+    squeue -u $experiment_cluster_username -t R
 fi
 
 # Delete tmp folder
