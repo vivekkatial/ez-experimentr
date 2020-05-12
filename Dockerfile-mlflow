@@ -4,7 +4,7 @@ LABEL maintainer="Vivek Katial <vivekkatial@gmail.com>"
 # SET UP
 ENV MLFLOW_VERSION 1.4.0
 ENV TERM linux
-ENV BUCKET s3://testBucket/
+ENV BUCKET s3://6200_aqc_maxcut/
 ENV MLFLOW_S3_ENDPOINT_URL https://objects.storage.unimelb.edu.au
 
 #####################################################################
