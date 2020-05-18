@@ -23,6 +23,14 @@ if [ ! -e .aws/credentials ] ; then
     exit 1
 fi
 
+# Check if env.list exists
+if [ -e ./env.list ] ; then 
+    echo "Environment file is present"
+else
+    echo "Environment file is not present"
+    exit 1
+fi
+
 echo "Building MLFLOW container"
 
 # Build container
