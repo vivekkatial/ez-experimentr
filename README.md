@@ -22,7 +22,7 @@ To run experiments:
 bash bin/entry_point.sh
 ```
 
-## Proposed Architecture
+## Architecture
 <a href="https://github.com/vivekkatial/ez-experimentr/blob/master/cluster-experimentation-workflow.png">
     <img src="cluster-experimentation-workflow.png" />
 </a>
