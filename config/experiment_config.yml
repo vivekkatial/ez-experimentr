@@ -1,8 +1,8 @@
 experiment:
   repository: "aqc-three-sat-sim"
-  github_url: "https://github.com/vivekkatial/aqc-three-sat-sim"
-  cluster_uri: "/data/cephfs/punim1074/"
+  github_url: "https://gitlab.unimelb.edu.au/unimelbqc/aqted/qaoa-vrp"
+  cluster_uri: "/data/gpfs/projects/punim1074/qaoa-vrp"
   cluster_scratch_dir: "/scratch/punim1074/"
   cluster_provider: "unimelb_SPARTAN"
   cluster_username: "vivekkatial"
-  singularity_image_uri: "ubuntu@115.146.92.101:aqc-three-sat-sim/portable-image.img"
+  singularity_image_uri: "ubuntu@45.113.235.110:AQTED/qaoa-vrp/qaoa-vrp-image.img"
