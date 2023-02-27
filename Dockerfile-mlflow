@@ -1,8 +1,8 @@
-FROM python:3.6
+FROM python:3.9
 LABEL maintainer="Vivek Katial <vivekkatial@gmail.com>"
 
 # SET UP
-ENV MLFLOW_VERSION 1.4.0
+ENV MLFLOW_VERSION 2.1.1
 ENV TERM linux
 ENV BUCKET s3://testBucket/
 ENV MLFLOW_S3_ENDPOINT_URL https://objects.storage.unimelb.edu.au
