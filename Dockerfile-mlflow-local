@@ -37,8 +37,8 @@ WORKDIR /mlflow/
 # Install extra-requirments
 RUN pip install -r extra-requirements.txt
 
-# Expose Port 8080
-EXPOSE 5000
+# Expose Port 3000
+EXPOSE 3000
 
 # Deploy
 CMD mlflow server \
