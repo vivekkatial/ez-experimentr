@@ -1,0 +1,46 @@
+FROM python:3.9
+LABEL maintainer="Vivek Katial <vivekkatial@gmail.com>"
+
+# SET UP
+ENV MLFLOW_VERSION 2.1.1
+ENV TERM linux
+ENV BUCKET s3://testBucket/
+ENV MLFLOW_S3_ENDPOINT_URL https://objects.storage.unimelb.edu.au
+
+#####################################################################
+# AWS
+#####################################################################
+
+# install AWS CLI
+WORKDIR /root
+RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+RUN unzip awscli-bundle.zip
+RUN ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+
+# copy AWS credentials
+COPY .aws /root/.aws
+# Copy
+
+#####################################################################
+# MLFLOW
+#####################################################################
+
+# Upgrade pip
+RUN pip install --upgrade pip
+RUN pip install mlflow==$MLFLOW_VERSION
+RUN mkdir -p /mlflow/
+
+ADD extra-requirements.txt /mlflow/
+
+WORKDIR /mlflow/
+
+# Install extra-requirments
+RUN pip install -r extra-requirements.txt
+
+# Expose Port 8080
+EXPOSE 5000
+
+# Deploy
+CMD mlflow server \
+    --default-artifact-root $BUCKET \
+    --host 0.0.0.0
