@@ -7,7 +7,7 @@
 # --------------------------------------------
 
 export PORT=5000
-export PORT_LOCAL=5555
+export PORT_LOCAL=5000
 
 if [ $1 = "local" ] ; then 
     echo "Local Build"
