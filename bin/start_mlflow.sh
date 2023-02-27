@@ -11,7 +11,7 @@ export PORT_LOCAL=5000
 
 if [ $1 = "local" ] ; then 
     echo "Local Build"
-    docker run -d -p $PORT_LOCAL:5000 -e DISABLE_AUTH=true --env-file ./env.list ez-experimentr/mlflow && \
+    docker run -d -p $PORT_LOCAL:5000 -e DISABLE_AUTH=true --env-file ./env.list ez-experimentr/mlflow-local && \
     echo "Mlflow Tracking Server running on http://localhost:$PORT_LOCAL"
 else
     echo "DB BACKEND INSTANCE"
