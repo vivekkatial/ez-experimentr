@@ -44,4 +44,5 @@ EXPOSE $MLFLOW_PORT
 # Deploy
 CMD mlflow server \
     --default-artifact-root $BUCKET \
-    --host 0.0.0.0
+    --host 0.0.0.0 \
+    --port $MLFLOW_PORT
