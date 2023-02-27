@@ -36,7 +36,7 @@ echo "Building MLFLOW container"
 # Build container
 # docker build -f Dockerfile-mlflow -t ez-experimentr/mlflow .
 
-if [[$1 = "local"]] ; then 
+if [$1 = "local"] ; then 
     echo "Local Build"
 else
     echo "DB Build"
