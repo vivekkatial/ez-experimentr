@@ -261,13 +261,28 @@ We will now provision another VM to run an [mlflow](https://mlflow.org/) server.
   - `$ git clone https://github.com/vivekkatial/ez-experimentr.git`
 5. You will also need to ensure that your `aws` credentials are present on the `VM`. To do this you must `scp` the credentials from your local machine onto the `VM`.
   - `$ scp -i ~/.ssh/<VM_PEM_KEY.pem> -r .aws/ ubuntu@<VM_URI>:ez-experimentr/`
-6. Then `ssh` **back** into the VM and `cd` into the `ez-experimentr` directory and run the `build_mlflow_container.sh` shell script as `sudo`:
+
+### Provision ML Flow Database
+- When provisioning the database make sure you have allocated resources in your compute request.
+- When creating it set a higher db RAM if you can -- this means retrieval will be faster
+- You can use the following params:
+  - **Instance Name** `mlflowdb`
+  - **Volume Size** `64 Gib`
+  - **Flavor** `db.medium` (16GB)
+  - **Datastore** `MySQL`
+- Then ensure in the networking you've selected `qh2-uom` (this is the public provider)
+- Then in initial databases create an `admin` user (with your own password)
+- Then based on the connection you need to add this in our env-vars on the VM
+  - `mysql://USERNAME:PASSWORD@2c3gmmkmv6y.db.cloud.edu.au:3306/DATABASE`
+
+1. Then `ssh` **back** into the VM and `cd` into the `ez-experimentr` directory and run the `build_mlflow_container.sh` shell script as `sudo`:
   - `$ sudo bash bin/build_mlflow_container.sh`
-7. You should now have successfully built an `mlflow` Docker container. Verify this by running:
+2. You should now have successfully built an `mlflow` Docker container. Verify this by running:
   - `$ sudo docker images`
-8. You can now deploy the `mlflow` container by running:
+3. You can now deploy the `mlflow` container by running:
   - `$ sudo bash bin/start_mlflow.sh`
-9. Verify your instance is deployed by going on your internet browser and going too:
+  - Make sure you have `env.list` created
+4. Verify your instance is deployed by going on your internet browser and going too:
   - http://<YOUR_VM_IP_ADDRESS>:5000
   - You should see the `mlflow` UI:
   - ![MLFlow UI](images/mlflow-ui.png)
