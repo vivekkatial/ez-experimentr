@@ -273,7 +273,8 @@ We will now provision another VM to run an [mlflow](https://mlflow.org/) server.
 - Then ensure in the networking you've selected `qh2-uom` (this is the public provider)
 - Then in initial databases create an `admin` user (with your own password)
 - Then based on the connection you need to add this in our env-vars on the VM
-  - `mysql://USERNAME:PASSWORD@2c3gmmkmv6y.db.cloud.edu.au:3306/DATABASE`
+  - `mysql://USERNAME:PASSWORD@DBHOST.db.cloud.edu.au:3306/DATABASE`
+  - `scp -i ~/.ssh/<YOUR_PEM> .credentials/env-vars.sh ubuntu@<INSTANCE_IP_ADDRESS>:ez-experimentr/.credentials/.`
 
 1. Then `ssh` **back** into the VM and `cd` into the `ez-experimentr` directory and run the `build_mlflow_container.sh` shell script as `sudo`:
   - `$ sudo bash bin/build_mlflow_container.sh`

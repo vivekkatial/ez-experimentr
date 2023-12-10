@@ -1,45 +1,66 @@
 #!/bin/bash
 
 # --------------------------------------------
-# This script is builds the mlflow container
+# This script builds the MLflow container
 #
 # Author: Vivek Katial
 # --------------------------------------------
 
 set -e
 
-# Check if AWS directory exists
-if [ -d .aws/ ] ; then 
-    echo "AWS directory present"
-else
-    echo "AWS directory is not present"
-    exit 1
-fi
+# Function to check for AWS directory
+check_aws_directory() {
+    if [ -d .aws/ ]; then
+        echo "[INFO] AWS directory is present."
+    else
+        echo "[ERROR] AWS directory is not present. Exiting."
+        exit 1
+    fi
+}
 
-# First check if AWS credentials are present
-if [ ! -e .aws/credentials ] ; then
-    echo "Could not locate AWS credentials please ensure you have transferred them" 
-    echo "Try using SCP: 'scp -i ~/.ssh/<VM_PEM_KEY.pem> .aws/ ubuntu@<VM_URI>:ez-experimentr/' "
-    exit 1
-fi
+# Function to check for AWS credentials
+check_aws_credentials() {
+    if [ ! -e .aws/credentials ]; then
+        echo "[ERROR] AWS credentials not found. Please ensure they are transferred."
+        echo "Hint: Try using SCP: 'scp -i ~/.ssh/<VM_PEM_KEY.pem> .aws/ ubuntu@<VM_URI>:ez-experimentr/'"
+        exit 1
+    else
+        echo "[INFO] AWS credentials found."
+    fi
+}
 
-# Check if env.list exists
-if [ -e ./env.list ] ; then 
-    echo "Environment file is present"
-else
-    echo "Environment file is not present"
-    exit 1
-fi
+# Function to check for environment file
+check_env_file() {
+    if [ -e ./env.list ]; then
+        echo "[INFO] Environment file is present."
+    else
+        echo "[ERROR] Environment file is not present. Exiting."
+        exit 1
+    fi
+}
 
-echo "Building MLFLOW container"
+# Function to build the container
+build_container() {
+    echo "[INFO] Starting to build the MLflow container..."
+
+    if [ "$1" = "local" ]; then
+        echo "[INFO] Performing a Local Build."
+        docker build -f Dockerfile-mlflow-local -t ez-experimentr/local-mlflow .
+    else
+        echo "[INFO] Performing a Database Build."
+        docker build -f Dockerfile-mlflow -t ez-experimentr/mlflow .
+    fi
+
+    echo "[INFO] MLflow container build completed."
+}
+
+# Main script execution
+echo "[INFO] Initiating the MLflow container build script..."
+
+# Perform checks
+check_aws_directory
+check_aws_credentials
+check_env_file
 
 # Build container
-# docker build -f Dockerfile-mlflow -t ez-experimentr/mlflow .
-
-if [ $1 = "local" ] ; then 
-    echo "Local Build"
-    docker build -f Dockerfile-mlflow-local -t ez-experimentr/local-mlflow .
-else
-    echo "DB Build"
-    docker build -f Dockerfile-mlflow -t ez-experimentr/mlflow .
-fi
+build_container $1
