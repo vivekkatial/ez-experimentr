@@ -35,6 +35,9 @@ WORKDIR /mlflow/
 COPY extra-requirements.txt /mlflow/
 RUN pip install -r extra-requirements.txt
 
+# Set permissions for .htpasswd
+RUN chmod 644 /etc/nginx/.htpasswd
+
 # Expose Port
 EXPOSE 5000
 
