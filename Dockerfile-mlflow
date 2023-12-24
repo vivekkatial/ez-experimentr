@@ -19,7 +19,19 @@ RUN ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 
 # copy AWS credentials
 COPY .aws /root/.aws
-# Copy
+
+#####################################################################
+# NGINX for Basic HTTP Auth
+#####################################################################
+
+# Install NGINX
+RUN apt-get update && apt-get install -y nginx
+
+# Copy the NGINX config file
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Copy the .htpasswd file for auth
+COPY .htpasswd /etc/nginx/.htpasswd
 
 #####################################################################
 # MLFLOW
@@ -41,8 +53,7 @@ RUN pip install -r extra-requirements.txt
 EXPOSE 5000
 
 # Deploy
-CMD mlflow server \
-    --app-name basic-auth \
+CMD service nginx start && mlflow server \
     --backend-store-uri $BACKEND_URI \
     --default-artifact-root $BUCKET \
     --host 0.0.0.0
