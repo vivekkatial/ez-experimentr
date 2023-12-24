@@ -1,58 +1,44 @@
 FROM python:3.9
 LABEL maintainer="Vivek Katial <vivekkatial@gmail.com>"
 
-# SET UP
+# Environment Setup
 ENV MLFLOW_VERSION 2.9.1
 ENV TERM linux
 ENV BUCKET s3://testBucket/
 ENV MLFLOW_S3_ENDPOINT_URL https://objects.storage.unimelb.edu.au
 
-#####################################################################
-# AWS
-#####################################################################
-
-# install AWS CLI
+# Install AWS CLI
 WORKDIR /root
-RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
-RUN unzip awscli-bundle.zip
-RUN ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" \
+    && unzip awscli-bundle.zip \
+    && ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 
-# copy AWS credentials
+# Copy AWS Credentials
 COPY .aws /root/.aws
-
-#####################################################################
-# NGINX for Basic HTTP Auth
-#####################################################################
 
 # Install NGINX
 RUN apt-get update && apt-get install -y nginx
 
-# Copy the NGINX config file
+# Copy NGINX Config and .htpasswd
 COPY nginx.conf /etc/nginx/nginx.conf
-
-# Copy the .htpasswd file for auth
 COPY .htpasswd /etc/nginx/.htpasswd
 
-#####################################################################
-# MLFLOW
-#####################################################################
+# Install MLflow
+RUN pip install --upgrade pip \
+    && pip install mlflow==$MLFLOW_VERSION
 
-# Upgrade pip
-RUN pip install --upgrade pip
-RUN pip install mlflow==$MLFLOW_VERSION
+# Setup MLflow Directory
 RUN mkdir -p /mlflow/
-
-ADD extra-requirements.txt /mlflow/
-
 WORKDIR /mlflow/
 
-# Install extra-requirments
+# Copy and Install Extra Requirements
+COPY extra-requirements.txt /mlflow/
 RUN pip install -r extra-requirements.txt
 
-# Expose Port 5000
+# Expose Port
 EXPOSE 5000
 
-# Deploy
+# Start Command
 CMD service nginx start && mlflow server \
     --backend-store-uri $BACKEND_URI \
     --default-artifact-root $BUCKET \
